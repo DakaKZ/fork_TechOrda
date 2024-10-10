@@ -1,132 +1,57 @@
-# fastapi-final
+# Проект API-DAKA
 
-В этом задании придется решать задачи из Java Интенсива, но на Python. На Java Интенсиве вы уже изучили основы программирования, поэтому для вас не составит труда ознакомиться с основами Python.
+Этот проект содержит несколько маршрутов FastAPI для решения задач из Java Интенсива, реализованных на Python.
 
-Если у вас все же возникнут сложности с Python, не переживайте - это нормально. Советуем активно использовать Google для освоения Python.
+## Структура проекта
 
-В этом задании разрешается использовать все встроенные библиотеки Python.
+- **/sum1n**: Возвращает сумму чисел от 1 до n.
+- **/fibo**: Возвращает n-е число последовательности Фибоначчи.
+- **/reverse**: Возвращает перевернутую строку.
+- **/list**: Позволяет сохранять и получать элементы из глобального массива.
+- **/calculator**: Выполняет вычисление простых математических выражений.
 
-### Полезные ссылки
+## Установка
 
-- [Postman.com](https://www.postman.com/)
-- [Postman API testing](https://www.postman.com/automated-testing/)
-- [FastAPI туториал](https://fastapi.tiangolo.com/tutorial/)
+### Требования
 
-### Задание
+- Python 3.8+
+- FastAPI
+- Uvicorn
+- Postman (для тестирования)
 
-#### 1. Пройти по ссылке задания в GitHub Classroom
+### Настройка
 
-Задание выполняется в GitHub Classroom. После выполнения пришлите свою ссылку на рецензию ревьюеру в Stepik ([ССЫЛКА GITHUB CLASSROOM])
+1. Клонируйте репозиторий:
+   ```bash
+   git clone https://github.com/DakaKZ/fork_TechOrda.git
+   cd fork_TechOrda/python/api/fastapi-final
 
-#### 2. Создать роуты.
 
-`/sum1n`, принимающий GET запросы.
+2. Создайте виртуальное окружение и активируйте его:
 
-Передается число n через URL. Вернуть сумму от 1 до n.
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # Для Windows: venv\Scripts\activate
 
-Пример запроса.
+3. Установите зависимости:
 
-```bash
-$ curl http://localhost:8000/sum1n/10
-{"result": 55}
-```
+    ```bash
+    pip install -r requirements.txt
 
----
+4. Запуск
 
-`/fibo`, принимающий GET запросы.
+    Запустите сервер:
 
-Передается число n через URL Query. Вернуть n-ное число из последовательности Фибоначчи.
+    ```bash
+    uvicorn main:app --reload
 
-Пример запроса.
+    Теперь приложение доступно по адресу http://localhost:8000.
+    Тестирование маршрутов через Postman
 
-```bash
-$ curl http://localhost:8000/fibo?n=5
-{"result": 3}
-```
-
----
-
-`/reverse`, принимающий POST запросы.
-
-Передается строка `string` через Header. Вернуть перевернутую строку задом наперед.
-
-Пример запроса.
-
-```bash
-$ curl -X POST -H "string: hello" http://localhost:8000/reverse
-{"result": "olleh"}
-```
-
----
-
-`/list`, принимающий PUT запросы.
-
-Передается строка `element` через JSON тело запроса. Сохранить строку `element` в глобальный массив.
-
-Пример запроса.
-
-```bash
-$ curl -X PUT -d '{"element":"Apple"}' -H 'Content-Type: application/json' http://localhost:8000/list
-$ curl -X PUT -d '{"element":"Microsoft"}' -H 'Content-Type: application/json' http://localhost:8000/list
-$ curl http://localhost:8000/list
-{"result": ["Apple", "Microsoft"]}
-```
-
----
-
-`/list`, принимающий GET запросы.
-
-Вернуть глобальный массив.
-
-Пример запроса.
-
-```bash
-$ curl http://localhost:8000/list
-{"result": []}
-$ curl -X PUT -d '{"element":"Apple"}' -H 'Content-Type: application/json' http://localhost:8000/list
-$ curl -X PUT -d '{"element":"Microsoft"}' -H 'Content-Type: application/json' http://localhost:8000/list
-$ curl http://localhost:8000/list
-{"result": ["Apple", "Microsoft"]}
-```
-
----
-
-`/calculator`, принимающий POST запросы.
-
-Передается строка `expr` через JSON тело запроса. Строка `expr` состоит из математического выражения, которое нужно вычислить. Формат строки следующий: `num1,operator,num2`.
-
-- `num1` и `num2` - это числа
-- `operator` - это математическая операция: +,-,/,\*
-
-Вернуть результат математического выражения.
-
-Если `expr` неверного формата, вернуть `{"error": "invalid"}` со статусом `400 Bad Request`.
-
-При делении на ноль вернуть `{"error": "zerodiv"}` со статусом `403`.
-
-Пример запроса.
-
-```bash
-$ curl -X POST -d '{"expr": "1,+,1"}' -H 'Content-Type: application/json' http://localhost:8000/calculator
-{"result": 2}
-```
-
-#### 3. Создать файл зависимостей и добавить его в репозиторий.
-
-```bash
-pip freeze > requirements.txt
-```
-
-#### 4. Написать в `README.md` инструкцию для запуска проекта, начиная с установки окружения и установки зависимостей pip.
-
-#### 5. Добавить файл .gitignore, который содержит [рекомендации](https://github.com/github/gitignore/blob/main/Python.gitignore).
-
-#### 6. Установить Postman.
-
-#### 7. Для каждого роута написать unit-тест на проверку статус кода. Название каждого запроса в Postman должно четко отражать его цель.
-
-#### 8. Экспортировать коллекцию и добавить файл с тестами в репозиторий.
-
-#### 9. Отправить изменения в github.com - `git push`.
-
-#### 10. Прислать ссылку на созданный репозиторий.
+    Откройте Postman и создайте новый запрос.
+    Используйте соответствующие HTTP-методы для тестирования маршрутов:
+        GET /sum1n/{n} — вернет сумму от 1 до n.
+        GET /fibo?n={n} — вернет n-е число Фибоначчи.
+        POST /reverse — передайте строку через заголовок string, чтобы получить ее в обратном порядке.
+        PUT /list — добавьте элемент в массив через тело запроса в формате JSON.
+        POST /calculator — передайте строку выражения expr через тело запроса для вычисления математического выражения.
