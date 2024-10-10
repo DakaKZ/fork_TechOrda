@@ -33,10 +33,13 @@ def add_to_list(element: str):
 def get_list():
     return {"result": elements}
 
+class Expression(BaseModel):
+    expr: str
+
 @app.post("/calculator")
-def calculate(expr: str):
+def calculate(data: Expression):
     try:
-        num1, operator, num2 = expr.split(',')
+        num1, operator, num2 = data.expr.split(',')
         num1, num2 = float(num1), float(num2)
     except ValueError:
         raise HTTPException(status_code=400, detail="invalid")
