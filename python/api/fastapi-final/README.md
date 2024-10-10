@@ -30,8 +30,8 @@
 2. Создайте виртуальное окружение и активируйте его:
 
     ```bash
-    python3 -m venv venv
-    source venv/bin/activate  # Для Windows: venv\Scripts\activate
+    python3 -m venv api-daka
+    source api-daka/bin/activate  # Для Windows: api-daka\Scripts\activate
 
 3. Установите зависимости:
 
