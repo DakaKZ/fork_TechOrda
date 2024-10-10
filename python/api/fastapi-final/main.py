@@ -17,9 +17,12 @@ def fibonacci(n: int):
         a, b = b, a + b
     return {"result": a}
 
+class StringModel(BaseModel):
+    string: str
+
 @app.post("/reverse")
-def reverse_string(string: str):
-    return {"result": string[::-1]}
+def reverse_string(data: StringModel):
+    return {"result": data.string[::-1]}
 
 @app.put("/list")
 def add_to_list(element: str):
