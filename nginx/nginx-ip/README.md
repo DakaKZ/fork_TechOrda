@@ -22,3 +22,5 @@
 ---
 
 ### Ответ
+root@ds-HP-ProBook-450-15-6-inch-G9-Notebook-PC:/opt/github/fork_TechOrda/nginx/nginx-auth-theory# curl --user daka:passdaka http://localhost:8080/secret_word
+jusan-nginx-locationsroot@ds-HP-ProBook-450-15-6-inch-G9-Notebook-PC:/opt/github/fork_TechOrda/nginx/nginx-auth-theory#
