@@ -1,0 +1,18 @@
+stages:
+  - init
+
+clickhouse_init:
+  stage: init
+  services:
+    - name: clickhouse/clickhouse-server:latest
+      alias: clickhouse
+  image: curlimages/curl:latest
+  script:
+    - echo "Waiting for ClickHouse to be ready..."
+    - until curl -s http://clickhouse:8123/ping | grep -q 'Ok'; do sleep 1; done
+    - echo "ClickHouse is ready."
+    - for file in schemas/*.sql; do
+        echo "Applying $file";
+        curl -sS -u default: --data-binary @"$file" http://clickhouse:8123/;
+      done
+
