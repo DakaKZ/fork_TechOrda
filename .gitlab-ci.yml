@@ -1,18 +1,25 @@
 stages:
-  - init
+  - deploy
+  - test
 
-clickhouse_init:
-  stage: init
+deploy:
+  stage: deploy
+  image: docker:24.0.5
   services:
-    - name: clickhouse/clickhouse-server:latest
-      alias: clickhouse
-  image: curlimages/curl:latest
+    - docker:24.0.5-dind
   script:
-    - echo "Waiting for ClickHouse to be ready..."
-    - until curl -s http://clickhouse:8123/ping | grep -q 'Ok'; do sleep 1; done
-    - echo "ClickHouse is ready."
-    - for file in schemas/*.sql; do
-        echo "Applying $file";
-        curl -sS -u default: --data-binary @"$file" http://clickhouse:8123/;
-      done
+    - docker compose -f docker-compose.yml up -d
+  only:
+    - main
+
+test:
+  stage: test
+  image: curlimages/curl
+  script:
+    - |
+      echo "Ждём запуск S3 интерфейса..."
+      sleep 10
+      curl -f http://localhost:8333
+  only:
+    - main
 

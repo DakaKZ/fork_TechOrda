@@ -1,10 +1,43 @@
 version: '3.8'
+
 services:
-  clickhouse:
-    image: clickhouse/clickhouse-server:latest
+  master:
+    image: chrislusf/seaweedfs
+    command: "master -ip=master -mdir=/data"
     ports:
-      - "8123:8123"
-      - "9000:9000"
-    volumes:
-      - ./schemas:/docker-entrypoint-initdb.d
+      - "9333:9333"
+    networks:
+      - seaweednet
+
+  volume:
+    image: chrislusf/seaweedfs
+    command: 'volume -mserver=master:9333 -ip=volume -dir=/data'
+    depends_on:
+      - master
+    networks:
+      - seaweednet
+
+  s3:
+    image: chrislusf/seaweedfs
+    command: 's3 -filer=filer:8888 -port=8333'
+    ports:
+      - "8333:8333"
+    depends_on:
+      - filer
+    networks:
+      - seaweednet
+
+  filer:
+    image: chrislusf/seaweedfs
+    command: "filer -master=master:9333 -ip=filer"
+    ports:
+      - "8888:8888"
+    depends_on:
+      - master
+    networks:
+      - seaweednet
+
+networks:
+  seaweednet:
+    driver: bridge
 
